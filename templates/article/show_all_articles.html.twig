@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Magasin{% endblock %}
+
+{% block body %}
+
+<div class="styled-table">
+    {% if articles is not empty %}
+    {% for article in articles %}
+        {% if loop.first %}
+                <table>
+                <tr>
+                    <th>NAME</th>
+                    <th>DESCRIPTION</th>
+                    <th>PRICE</th>
+                    <th>NUMBER IN STOCK</th>
+                    <th>MODIFIER</th>
+                    <th>SUPPRIMIER</th>
+                    {# <th>CATEGORY</th> #}
+                </tr>     
+        {% endif %}
+            <tr>
+                <td> {{article.getName }} </td>
+                <td> {{article.getDescription }} </td>
+                <td> {{article.getPrix }} </td>
+                <td> {{article.getNombresAvailable }} </td>
+            </tr>        
+       
+       {% if loop.last %}
+            </table>
+       {% endif %}
+       
+    {% endfor %}
+    {% else %}
+        Stock empty
+    {% endif %}
+
+</div>
+
+{% endblock %}
