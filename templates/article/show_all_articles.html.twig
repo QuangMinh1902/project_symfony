@@ -1,41 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Magasin{% endblock %}
+{% block title %}
+    Magasin
+{% endblock %}
 
 {% block body %}
+    <div class="count mt-2">
+          Il y au total {{articles.getTotalItemCount }} paire de chaussures
+    </div>
 
-<div class="styled-table">
-    {% if articles is not empty %}
-    {% for article in articles %}
-        {% if loop.first %}
-                <table>
-                <tr>
-                    <th>NAME</th>
-                    <th>DESCRIPTION</th>
-                    <th>PRICE</th>
-                    <th>NUMBER IN STOCK</th>
-                    {# <th>MODIFIER</th> #}
-                    <th>SUPPRIMIER</th>
-                    {# <th>CATEGORY</th> #}
-                </tr>     
+    <div  class="table mt-3">
+        {% if articles is not empty %}
+            {% for article in articles %}
+                {% if loop.first %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                NAME
+                            </th>
+                            <th>
+                                DESCRIPTION
+                            </th>
+                            <th>
+                                PRICE
+                            </th>
+                            <th>
+                                NUMBER IN STOCK
+                            </th>
+                            <th>
+                               CREATE AT
+                            </th>
+                            {# <th>MODIFIER</th> #}
+                            <th>
+                                SUPPRIMIER
+                            </th>
+                        {# <th>CATEGORY</th> #}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% endif %}
+                    <tr scope="row">
+                        <td>
+                            {{ article.name }}
+                        </td>
+                        <td>
+                            {{ article.description }}
+                        </td>
+                        <td>
+                            {{ article.prix }}
+                        </td>
+                        <td>
+                            {{ article.nombresAvailable }}
+                        </td>
+                        <td>
+                            {{ article.createAt|date('d-m-Y') }}
+                        </td>
+                        <td>
+                            <a href={{ path('delete_article',{id:article.getId} ) }} onclick="confirm("Do you really want remove this article ?");">
+                                Remove 
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% if loop.last %}
+                        </tbody>
+                    </table>
+                    <div class="navigation d-flex justify-content-center">
+                        {{ knp_pagination_render(articles)}}
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        {% else %}
+            Stock empty
+                
         {% endif %}
-            <tr>
-                <td> {{article.getName }} </td>
-                <td> {{article.getDescription }} </td>
-                <td> {{article.getPrix }} </td>
-                <td> {{article.getNombresAvailable }} </td>
-                <td> <a href={{ path('delete_article',{id:article.getId})}} onclick= confirm("Do you really want remove this article ?");  >Remove </a> </td>
-            </tr>        
-       
-       {% if loop.last %}
-            </table>
-       {% endif %}
-       
-    {% endfor %}
-    {% else %}
-        Stock empty
-    {% endif %}
 
-</div>
+    </div>
 
 {% endblock %}
