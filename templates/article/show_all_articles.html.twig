@@ -14,7 +14,7 @@
                     <th>DESCRIPTION</th>
                     <th>PRICE</th>
                     <th>NUMBER IN STOCK</th>
-                    <th>MODIFIER</th>
+                    {# <th>MODIFIER</th> #}
                     <th>SUPPRIMIER</th>
                     {# <th>CATEGORY</th> #}
                 </tr>     
@@ -24,6 +24,7 @@
                 <td> {{article.getDescription }} </td>
                 <td> {{article.getPrix }} </td>
                 <td> {{article.getNombresAvailable }} </td>
+                <td> <a href={{ path('delete_article',{id:article.getId})}} onclick= confirm("Do you really want remove this article ?");  >Remove </a> </td>
             </tr>        
        
        {% if loop.last %}
