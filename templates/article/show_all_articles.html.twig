@@ -2,79 +2,101 @@
 
 {% block title %}
     Magasin
+        
 {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success m-4">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <a href="{{path("create_article")}}" class="btn btn-primary m-3">
+        Create new article
+    </a>
+
     <div class="count mt-2">
-          Il y au total {{articles.getTotalItemCount }} paire de chaussures
+        Il y au total 
+                
+        {{ articles.getTotalItemCount }}
+        paire de chaussures
+            
     </div>
 
-    <div  class="table mt-3">
+    <div class="table mt-3">
         {% if articles is not empty %}
             {% for article in articles %}
                 {% if loop.first %}
                     <table class="table table-hover">
                         <thead>
-                        <tr>
-                            <th scope="col">
-                                NAME
-                            </th>
-                            <th>
-                                DESCRIPTION
-                            </th>
-                            <th>
-                                PRICE
-                            </th>
-                            <th>
-                                NUMBER IN STOCK
-                            </th>
-                            <th>
-                               CREATE AT
-                            </th>
-                            {# <th>MODIFIER</th> #}
-                            <th>
-                                SUPPRIMIER
-                            </th>
-                        {# <th>CATEGORY</th> #}
+                            <tr>
+                                <th scope="col">
+                                    NAME
+                                </th>
+                                <th>
+                                    DESCRIPTION
+                                </th>
+                                <th>
+                                    PRICE
+                                </th>
+                                <th>
+                                    NUMBER IN STOCK
+                                </th>
+                                <th>
+                                    CREATE AT
+                                </th>
+                                <th>MODIFIER</th>
+                                <th>
+                                    SUPPRIMIER
+                                </th>
+                            {# <th>CATEGORY</th> #}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% endif %}
+                        <tr scope="row">
+                            <td>
+                                {{ article.name }}
+                            </td>
+                            <td>
+                                {{ article.description }}
+                            </td>
+                            <td>
+                                {{ article.prix }}
+                            </td>
+                            <td>
+                                {{ article.nombresAvailable }}
+                            </td>
+                            <td>
+                                {{ article.createAt|date('d-m-Y') }}
+                            </td>
+                            <td>
+                                {# <a href={{ path('modify_article',{id:article.getId})}}> #}
+                                    Modify
+                                {# </a> #}
+                            </td>
+                            <td>
+                                <a href={{ path('delete_article',{id:article.getId} )  }} onclick="confirm(" Do you really want remove this article ?");">
+                                    Remove 
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                    {% endif %}
-                    <tr scope="row">
-                        <td>
-                            {{ article.name }}
-                        </td>
-                        <td>
-                            {{ article.description }}
-                        </td>
-                        <td>
-                            {{ article.prix }}
-                        </td>
-                        <td>
-                            {{ article.nombresAvailable }}
-                        </td>
-                        <td>
-                            {{ article.createAt|date('d-m-Y') }}
-                        </td>
-                        <td>
-                            <a href={{ path('delete_article',{id:article.getId} ) }} onclick="confirm("Do you really want remove this article ?");">
-                                Remove 
-                            </a>
-                        </td>
-                    </tr>
 
-                    {% if loop.last %}
+                        {% if loop.last %}
                         </tbody>
                     </table>
                     <div class="navigation d-flex justify-content-center">
-                        {{ knp_pagination_render(articles)}}
+                        {{ knp_pagination_render(articles) }}
                     </div>
                 {% endif %}
 
             {% endfor %}
         {% else %}
             Stock empty
-                
+                                        
+                                
+                    
         {% endif %}
 
     </div>

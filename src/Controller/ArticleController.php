@@ -51,7 +51,7 @@ class ArticleController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_article');
     }
-
+    
     #[Route("/article/create", name: "create_article", methods: ["GET", "POST"])]
     public function createArticle(Request $request,EntityManagerInterface $manager): Response
     {
@@ -66,6 +66,7 @@ class ArticleController extends AbstractController
                 'success',
                 'New article created successfully'
             );
+            return $this->redirectToRoute('app_article');
         }
         return $this->render("article/new_article.html.twig", [
             'form' => $form->createView()

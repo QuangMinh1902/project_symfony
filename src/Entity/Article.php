@@ -25,7 +25,7 @@ class Article
     )]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column()]
     private ?string $description = null;
 
     #[ORM\Column]
