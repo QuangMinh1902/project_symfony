@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 
 use App\Entity\Article;
 use App\Form\ArticleType;
-use Doctrine\ORM\EntityManager;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-class ArticleController extends AbstractController  
+class ArticleController extends AbstractController
 {
     /**
      * show all articles
@@ -51,15 +51,15 @@ class ArticleController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_article');
     }
-    
+
     #[Route("/article/create", name: "create_article", methods: ["GET", "POST"])]
-    public function createArticle(Request $request,EntityManagerInterface $manager): Response
+    public function createArticle(Request $request, EntityManagerInterface $manager): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
-        $form->handleRequest($request); 
-        if($form->isSubmitted() && $form->isValid() ){
-            $article= $form->getData();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
             $manager->persist($article);
             $manager->flush();
             $this->addFlash(
@@ -73,5 +73,24 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route("/article/edit/{id}", name: "edit_article", methods: ["GET", "POST"])]
+    public function editArticle(Article $article, Request $request, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
+            $manager->persist($article);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                'Article has been modified successfully'
+            );
+            return $this->redirectToRoute('app_article');
+        }
 
+        return $this->render("article/edit_article.html.twig", [
+            'form' => $form->createView()
+        ]);
+    }
 }

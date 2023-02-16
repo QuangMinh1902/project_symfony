@@ -72,12 +72,12 @@
                                 {{ article.createAt|date('d-m-Y') }}
                             </td>
                             <td>
-                                {# <a href={{ path('modify_article',{id:article.getId})}}> #}
+                                <a href={{ path('edit_article',{id:article.id})}}>
                                     Modify
-                                {# </a> #}
+                                </a>
                             </td>
                             <td>
-                                <a href={{ path('delete_article',{id:article.getId} )  }} onclick="confirm(" Do you really want remove this article ?");">
+                                <a href={{ path('delete_article',{id:article.id} )  }} onclick="confirm(" Do you really want remove this article ?");">
                                     Remove 
                                 </a>
                             </td>
@@ -94,11 +94,7 @@
             {% endfor %}
         {% else %}
             Stock empty
-                                        
-                                
-                    
         {% endif %}
-
     </div>
 
 {% endblock %}
