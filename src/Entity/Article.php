@@ -32,8 +32,8 @@ class Article
     #[Assert\NotBlank]
     #[Assert\Positive]
     #[Assert\GreaterThan(5)]
-    #[Assert\LessThan(200)]
-    private ?int $prix = null;
+    #[Assert\LessThan(700)]
+    private ?int $price = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createAt = null;
@@ -41,8 +41,12 @@ class Article
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\Positive]
-    #[Assert\LessThan(500)]
+    #[Assert\LessThan(600)]
     private ?int $nombresAvailable = null;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
 
 
     public function getId(): ?int
@@ -74,14 +78,14 @@ class Article
         return $this;
     }
 
-    public function getPrix(): ?int
+    public function getPrice(): ?int
     {
-        return $this->prix;
+        return $this->price;
     }
 
-    public function setPrix(int $prix): self
+    public function setprice(int $price): self
     {
-        $this->prix = $prix;
+        $this->price = $price;
 
         return $this;
     }
@@ -108,6 +112,18 @@ class Article
     public function setNombresAvailable(int $nombresAvailable): self
     {
         $this->nombresAvailable = $nombresAvailable;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

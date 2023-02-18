@@ -33,10 +33,10 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.prix) }}
-            {{ form_widget(form.prix) }}
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price) }}
             <div class="form-error">
-                {{ form_errors(form.prix) }}
+                {{ form_errors(form.price) }}
             </div>
         </div>
 
@@ -47,12 +47,18 @@
                 {{ form_errors(form.nombresAvailable) }}
             </div>
         </div>
-        {# 
-                <div class="form-group">
-                    {{ form_row(form.submit) }}
-        
-                </div> #}
+                
+        <div class="form-group">
+            {{ form_label(form.category) }}
+            {{ form_widget(form.category) }}
+            <div class="form-error">
+                {{ form_errors(form.category) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+             {{ form_row(form.submit) }}
+        </div> 
 
         {{ form_end(form) }}
-    </div>
 {% endblock %}

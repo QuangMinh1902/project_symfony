@@ -46,11 +46,12 @@
                                 <th>
                                     CREATE AT
                                 </th>
+                                <th>CATEGORY
+                                </th>
                                 <th>MODIFIER</th>
                                 <th>
                                     SUPPRIMIER
                                 </th>
-                            {# <th>CATEGORY</th> #}
                             </tr>
                         </thead>
                         <tbody>
@@ -63,7 +64,7 @@
                                 {{ article.description }}
                             </td>
                             <td>
-                                {{ article.prix }}
+                                {{ article.price }}
                             </td>
                             <td>
                                 {{ article.nombresAvailable }}
@@ -71,18 +72,23 @@
                             <td>
                                 {{ article.createAt|date('d-m-Y') }}
                             </td>
+
                             <td>
-                                <a href={{ path('edit_article',{id:article.id})}}>
+                                {{ article.category.name}}
+                            </td>
+                            
+                            <td>
+                                <a class="btn btn-warning" href={{ path('edit_article',{id:article.id})}}>
                                     Modify
                                 </a>
                             </td>
                             <td>
-                                <a href={{ path('delete_article',{id:article.id} )  }} onclick="confirm(" Do you really want remove this article ?");">
+                                <a class="btn btn-danger" href={{ path('delete_article',{id:article.id} )  }} onclick="confirm(' Do you really want remove this article ?');">
                                     Remove 
                                 </a>
                             </td>
                         </tr>
-
+                        
                         {% if loop.last %}
                         </tbody>
                     </table>

@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Article;
 // use Doctrine\DBAL\Types\DateTimeType;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -40,11 +42,11 @@ class ArticleType extends AbstractType
                     "class" => "form-label mt-4",
                 ]
             ])
-            ->add('prix', MoneyType::class, [
+            ->add('price', MoneyType::class, [
                 "attr" => [
                     "class" => "form-control ",
                 ],
-                "label" => "Prix",
+                "label" => "Price",
                 "label_attr" => [
                     "class" => "form-label mt-4 ",
                 ]
@@ -58,7 +60,19 @@ class ArticleType extends AbstractType
                     "class" => "form-label mt-4",
                 ]
             ])
-           
+            
+            ->add('category', EntityType::class, [
+                "class" => Category::class,
+                "choice_label" => "name",
+                "attr" => [
+                    "class" => "form-control",
+                ],
+                "label" => "Category",
+                "label_attr" => [
+                    "class" => "form-label mt-4",
+                ]
+                ])
+
             ->add('submit', SubmitType::class, [
                 "attr" => [
                     "class" => "btn btn-primary mt-4",

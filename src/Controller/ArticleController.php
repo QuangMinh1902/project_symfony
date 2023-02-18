@@ -8,8 +8,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -39,7 +41,7 @@ class ArticleController extends AbstractController
             10
         );
         return $this->render('article/show_all_articles.html.twig', [
-            'articles' => $articles
+            'articles' => $articles,
         ]);
     }
 
@@ -49,17 +51,22 @@ class ArticleController extends AbstractController
         $entityManager = $doctrine->getManager();
         $entityManager->remove($article);
         $entityManager->flush();
+        $this->addFlash(
+            'success',
+            'Article has been removed successfully'
+        );
         return $this->redirectToRoute('app_article');
     }
 
     #[Route("/article/create", name: "create_article", methods: ["GET", "POST"])]
-    public function createArticle(Request $request, EntityManagerInterface $manager): Response
+    public function createArticle(Request $request, EntityManagerInterface $manager, CategoryRepository $categoryRepository): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $article = $form->getData();
+            $article->setCreateAt(new \DateTimeImmutable());
             $manager->persist($article);
             $manager->flush();
             $this->addFlash(
@@ -69,7 +76,8 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('app_article');
         }
         return $this->render("article/new_article.html.twig", [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 

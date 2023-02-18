@@ -3,21 +3,31 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 22; $i++) {
-            $article = new Article();
-            $article->setName("Nike"  . "75$i");
-            $article->setPrix(rand(100, 400));
-            $article->setDescription("This is a Nike pair with the number 75$i");
-            $article->setNombresAvailable($i + rand(1, 30));
-            $article->setCreateAt(new \DateTimeImmutable());
+        $brands = ["Nike", "Adidas", "Puma", "New Balance", "Vans", "Converse"];
+        $categories = [];
+        foreach ($brands as $brand) {
+            $category = new Category();
+            $category->setName($brand);
+            $manager->persist($category);
+            $categories[] = $category;
+        }
 
+        for ($i = 0; $i < 60; $i++) {
+            $article = new Article();
+            $article->setName("Chaussures "  . rand(157534, 999999999));
+            $article->setPrice(rand(100, 700));
+            $article->setDescription("Notre chaussures sont en stock!");
+            $article->setNombresAvailable($i + rand(1, 50));
+            $article->setCreateAt(new \DateTimeImmutable());
+            $article->setCategory($categories[rand(0, count($categories) - 1)]);
             $manager->persist($article);
         }
 
