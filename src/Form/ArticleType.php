@@ -44,6 +44,8 @@ class ArticleType extends AbstractType
             ->add('price', MoneyType::class, [
                 "attr" => [
                     "class" => "form-control ",
+                    "minlength" => '1',
+                    "maxlength" => "10"
                 ],
                 "label" => "Price",
                 "label_attr" => [
@@ -53,6 +55,8 @@ class ArticleType extends AbstractType
             ->add('nombresAvailable', NumberType::class, [
                 "attr" => [
                     "class" => "form-control",
+                    "minlength" => '1',
+                    "maxlength" => "10"
                 ],
                 "label" => "Nombre d'article disponible",
                 "label_attr" => [
