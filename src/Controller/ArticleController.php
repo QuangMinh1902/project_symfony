@@ -59,7 +59,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route("/article/create", name: "create_article", methods: ["GET", "POST"])]
-    public function createArticle(Request $request, EntityManagerInterface $manager, CategoryRepository $categoryRepository): Response
+    public function createArticle(Request $request, EntityManagerInterface $manager): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -77,7 +77,6 @@ class ArticleController extends AbstractController
         }
         return $this->render("article/new_article.html.twig", [
             'form' => $form->createView(),
-            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
